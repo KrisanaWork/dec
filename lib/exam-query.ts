@@ -65,23 +65,25 @@ export async function getExamGridData(
 
   const now = new Date();
 
-  return examClasses.map((ec) => ({
-    examId: ec.exam.examId,
-    examClassId: ec.id,
-    subjectCode: ec.exam.subject.subjectCode,
-    subjectName: ec.exam.subject.subjectName,
-    className: ec.class.className,
-    examDate: fmtDate(ec.exam.startTime),
-    startTime: fmtTime(ec.exam.startTime),
-    endTime: fmtTime(ec.exam.endTime),
-    startAt: ec.exam.startTime.toISOString(),
-    endAt: ec.exam.endTime.toISOString(),
-    gradeLevel: ec.class.gradeLevel,
-    examLink: ec.examLink,
-    status: ec.status,
-    isOpen:
-      ec.status === "published" &&
-      now >= ec.exam.startTime &&
-      now <= ec.exam.endTime,
-  }));
+  return examClasses
+    .filter((ec) => ec.exam !== null)
+    .map((ec) => ({
+      examId: ec.exam.examId,
+      examClassId: ec.id,
+      subjectCode: ec.exam.subject.subjectCode,
+      subjectName: ec.exam.subject.subjectName,
+      className: ec.class.className,
+      examDate: fmtDate(ec.exam.startTime),
+      startTime: fmtTime(ec.exam.startTime),
+      endTime: fmtTime(ec.exam.endTime),
+      startAt: ec.exam.startTime.toISOString(),
+      endAt: ec.exam.endTime.toISOString(),
+      gradeLevel: ec.class.gradeLevel,
+      examLink: ec.examLink,
+      status: ec.status,
+      isOpen:
+        ec.status === "published" &&
+        now >= ec.exam.startTime &&
+        now <= ec.exam.endTime,
+    }));
 }
