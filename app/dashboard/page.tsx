@@ -1,0 +1,7 @@
+import { redirect } from "next/navigation";
+import { auth } from "@/auth";
+
+export default async function DashboardIndexPage() {
+  const session = await auth();
+  redirect(session?.user ? `/dashboard/${session.user.role}` : "/login");
+}
